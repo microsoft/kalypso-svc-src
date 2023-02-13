@@ -24,8 +24,14 @@ for file in `find $1 -type f \( -name "*.yaml" \)`; do
   helm_chart=$(yq '.helm.chart' $file)
   helm_chart_version=$(yq '.helm.version' $file)
 
-  helm repo add $service_name $helm_repository
-  helm template $service_name/$helm_chart --version $helm_chart_version -f $2/$values_file_name > $3/$gen_manifests_file_name
-  cat $3/$gen_manifests_file_name
-done
+  echo $file
+  echo $service_name
+  echo $helm_repository
+  echo $helm_chart
+  echo $helm_chart_version
 
+  helm repo add $service_name $helm_repository
+  mkdir -p $3/$service_name
+  helm template $service_name/$helm_chart --version $helm_chart_version -f $2/$service_name/$values_file_name > $3/$service_name/$gen_manifests_file_name
+  cat $3/$service_name/$gen_manifests_file_name
+done

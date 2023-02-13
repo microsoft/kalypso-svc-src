@@ -18,21 +18,12 @@ jobs:
         with:
           ref: dev-configs
           path: configs        
-      - name: Read Image Tags
+      - name: Generate Manifests
         run: |
-          IMAGE_TAG=${{ needs.Build_Push_Image.outputs.image_tag }}          
-          echo "IMAGE_TAG=$IMAGE_TAG" >> $GITHUB_ENV
-          VERSION=$IMAGE_TAG
-          echo "VERSION=$VERSION" >> $GITHUB_ENV
-      - name: Generate Manifests for Functional Tests
-        run: |
-          .github/workflows/utils/generate-manifests.sh ${{ github.workspace }}/helm ${{ github.workspace }}/configs/functional-tests manifests/functional-test 
-      - name: Generate Manifests for Performance Tests
-        run: |
-          .github/workflows/utils/generate-manifests.sh ${{ github.workspace }}/helm ${{ github.workspace }}/configs/performance-tests manifests/performance-test 
+          .github/workflows/utils/generate-manifests.sh ${{ github.workspace }}/services ${{ github.workspace }}/configs manifests
       - name: Create PR
         run: |        
-          .github/workflows/utils//create-pr.sh -s ${{ github.workspace }}/manifests -d functional-test -r ${{ secrets.MANIFESTS_REPO }} -b dev -i ${{ github.run_number }} -t ${{ secrets.MANIFESTS_TOKEN }} -m Y
+          .github/workflows/utils//create-pr.sh -s ${{ github.workspace }}/manifests -d . -r ${{ secrets.MANIFESTS_REPO }} -b dev -i ${{ github.run_number }} -t ${{ secrets.MANIFESTS_TOKEN }} -m Y
   
 
 
