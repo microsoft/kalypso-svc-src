@@ -9,7 +9,6 @@ on:
 jobs:
   Deploy_To_Dev:
       runs-on: ubuntu-latest
-      needs: Build_Push_Image
       steps:
       - name: Checkout Source
         uses: actions/checkout@v2.3.4
