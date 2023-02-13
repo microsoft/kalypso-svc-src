@@ -1,0 +1,39 @@
+name: cicd
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:    
+
+jobs:
+  Deploy_To_Dev:
+      runs-on: ubuntu-latest
+      needs: Build_Push_Image
+      steps:
+      - name: Checkout Source
+        uses: actions/checkout@v2.3.4
+      - name: Checkout Configs
+        uses: actions/checkout@v2.3.4
+        with:
+          ref: dev-configs
+          path: configs        
+      - name: Read Image Tags
+        run: |
+          IMAGE_TAG=${{ needs.Build_Push_Image.outputs.image_tag }}          
+          echo "IMAGE_TAG=$IMAGE_TAG" >> $GITHUB_ENV
+          VERSION=$IMAGE_TAG
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+      - name: Generate Manifests for Functional Tests
+        run: |
+          .github/workflows/utils/generate-manifests.sh ${{ github.workspace }}/helm ${{ github.workspace }}/configs/functional-tests manifests/functional-test 
+      - name: Generate Manifests for Performance Tests
+        run: |
+          .github/workflows/utils/generate-manifests.sh ${{ github.workspace }}/helm ${{ github.workspace }}/configs/performance-tests manifests/performance-test 
+      - name: Create PR
+        run: |        
+          .github/workflows/utils//create-pr.sh -s ${{ github.workspace }}/manifests -d functional-test -r ${{ secrets.MANIFESTS_REPO }} -b dev -i ${{ github.run_number }} -t ${{ secrets.MANIFESTS_TOKEN }} -m Y
+  
+
+
+
