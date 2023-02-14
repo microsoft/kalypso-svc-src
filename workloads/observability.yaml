@@ -1,13 +1,13 @@
 apiVersion: scheduler.kalypso.io/v1alpha1
 kind: Workload
 metadata:
-  name: prometheus-svc
+  name: observability
   labels:
     type: service
     stack: observability
 spec:
   deploymentTargets:
-    - name: prometheus-svc
+    - name: prometheus
       environment: dev
       manifests:
         repo: https://github.com/microsoft/kalypso-svc-gitops
