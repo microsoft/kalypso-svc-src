@@ -22,7 +22,7 @@ jobs:
           .github/workflows/utils/generate-manifests.sh ${{ github.workspace }}/services ${{ github.workspace }}/configs manifests
       - name: Create PR
         run: |        
-          .github/workflows/utils//create-pr.sh -s ${{ github.workspace }}/manifests -d . -r ${{ secrets.MANIFESTS_REPO }} -b dev -i ${{ github.run_number }} -t ${{ secrets.MANIFESTS_TOKEN }} -m Y
+          .github/workflows/utils//create-pr.sh -s ${{ github.workspace }}/manifests -d . -r ${{ secrets.MANIFESTS_REPO }} -b dev -i ${{ github.run_number }} -t ${{ secrets.MANIFESTS_TOKEN }} -m N
   
 
 
