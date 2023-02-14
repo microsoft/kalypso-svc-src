@@ -32,6 +32,6 @@ for file in `find $1 -type f \( -name "*.yaml" \)`; do
 
   helm repo add $service_name $helm_repository
   mkdir -p $3/$service_name
-  helm template $service_name/$helm_chart --version $helm_chart_version -f $2/$service_name/$values_file_name | sed '/namespace/d' > $3/$service_name/$gen_manifests_file_name
+  helm template $service_name/$helm_chart --version $helm_chart_version -f $2/$service_name/$values_file_name | sed '/namespace: default/d' > $3/$service_name/$gen_manifests_file_name
   cat $3/$service_name/$gen_manifests_file_name
 done
