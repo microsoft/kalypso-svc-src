@@ -1,6 +1,6 @@
 # Platform Services Source
 
-Platform Services source repo contains the high level manifests and templates for the `dial-tone` platform services that are used by the CI/CD workflows to generate manifests for the GitOps repository.
+[Kalypso](https://github.com/microsoft/kalypso) Platform Services source repo contains the high level manifests and templates for the `dial-tone` platform services that are used by the CI/CD workflows to generate manifests for the GitOps repository.
 
 ## Contributing
 
